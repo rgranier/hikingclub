@@ -1,0 +1,27 @@
+{% extends "base-back.html"%}
+{% block content %}
+
+<div class="container">
+  <div class=col-md-12>
+
+<h4> Edit Member</h4>
+<h5>{{member.firstName}} {{member.lastName}} ({{member.id}})</h5>
+<br>
+
+<!-- We pass in memberId directly.  We could just use member object and get the id -->
+<form action="{{url_for('members.edit', memberId = member.id)}}" method = 'POST'>
+
+  {{ form.firstName.label }} {{ form.firstName() }}<br>
+  {{ form.lastName.label }} {{ form.lastName() }}<br>
+  {{ form.email.label }} {{ form.email() }}<br>
+  {{ form.password.label }} {{ form.password() }}<br>
+
+  <input type='submit' value='Make Change'>
+
+  <a href ='{{url_for('members.list')}}' class="btn btn-primary btn-sm active"
+  role="button" aria-pressed="true">Cancel</a>
+</form>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base-back.html"%}
+{% block content %}
+<div class="jumbotron">
+
+<h1>Welcome to the login page!</h1>
+
+    <form action="{{url_for('login.login')}}" method = 'POST'>
+        <label for="email">Email</label>
+        <input type="text" name="email">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+
+
+        <input type="submit" value="Submit Form">
+    </form>
+
+</div>
+{% endblock %}
