@@ -1,0 +1,18 @@
+{% extends "base-back.html"%}
+{% block content %}
+<div class="jumbotron">
+
+<h1>Welcome to the sign up page!</h1>
+
+  <form action="{{url_for('auth.register')}}" method = 'POST'>
+  {# This hidden_tag is a CSRF security feature. #}
+  {{ form.hidden_tag() }}
+  {{ form.firstName.label }} {{ form.firstName() }}<br>
+  {{ form.lastName.label }} {{ form.lastName() }}<br>
+  {{ form.email.label }} {{ form.email() }}<br>
+  {{ form.password.label }} {{ form.password() }}<br>
+  {{ form.pass_confirm.label }} {{ form.pass_confirm() }}<br>
+  {{ form.submit() }}
+</form>
+</div>
+{% endblock %}

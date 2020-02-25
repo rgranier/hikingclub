@@ -1,0 +1,56 @@
+<!DOCTYPE html> <html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR --> <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <!-- TYPICALLY WE HAVE A BRAND LINK -->
+    <a class="navbar-brand" href="/">HOME</a>
+
+        <!-- THIS SETS UP THE COLLAPSABLE BUTTON ELEMENT (HAMBURGER) -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+
+        <!-- THEN WE PUT AN UNORDERED LIST INSIDE OF A COLLAPSE DIV -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <!-- EVERY ITEM IN NAVBAR IS JUST A LIST ITEM -->
+          <ul class="navbar-nav mr-auto">
+            {% if current_user.is_authenticated %}
+               <li class="nav-link"><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            {% else %}
+               <li class="nav-link"><a href="{{ url_for('auth.login') }}">Log In</a></li>
+               <li class="nav-link"><a href="{{ url_for('auth.register') }}">Register</a></li>
+            {% endif %}
+          </ul>
+
+    </div> </nav>  <!-- END NAV -->
+
+    <div class="jumbotron" style="background-image: url('../static/jumbo900.jpg'); background-size: cover;">
+    <h1 class="display-4">Kennesaw Hiking Club</h1>
+    <p class="lead">If you are an advid hiker, you have come to the right place.</p>
+    <hr class="my-4">
+    <p>This is the place to learn about and sign up for lot's of exciting events.</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+  </div>
+
+    <!-- BEGIN Block Content -->
+    {%block content%}
+
+
+
+    {% endblock %}
+    <!-- END Block Content -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS Should this be at the bottom or the top?-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  </body>
+  </html>
