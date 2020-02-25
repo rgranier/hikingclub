@@ -6,7 +6,7 @@ from hikingclub.models import Member
 from hikingclub.auth.forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
+#NOTE:  restarting the app does not force logout, but closing the browser does.
 auth_blueprint = Blueprint('auth',
                               __name__,
                               template_folder='templates/auth')
@@ -23,18 +23,18 @@ def logout():
     flash('You logged out!')
     return redirect(url_for('index'))
 
-#TODO: for some reason this form is never valid.
+#TODO: for some reason this form is never valid.  We can trick it by
+# using request.method.  It is true on submit for the login form, but
+# not here.  This is because we are not passing the CSRF
+# https://stackoverflow.com/questions/10722968/flask-wtf-validate-on-submit-is-never-executed
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = LoginForm()
-
-    if request.method == 'POST':
-        print("Valid Form on Login Submit: ", form.validate_on_submit(), file=sys.stderr)
+    if form.validate_on_submit():
+        print("LOGIN: Valid Form on Login Submit: ", form.validate_on_submit(), file=sys.stderr)
         # Grab the user from our User Models table
         member = Member.query.filter_by(email=form.email.data).first()
         print(type(member), file=sys.stderr)
-
         # Check that the user was supplied and the password is right
         # The verify_password method comes from the User object
         # https://stackoverflow.com/questions/2209755/python-operation-vs-is-not
@@ -53,22 +53,22 @@ def login():
                 if next == None or not next[0]=='/':
                     next = url_for('auth.welcome')
                 return redirect(next)
-            else:
+            else: # bad password
+                flash('Your password is incorrect.')
                 return render_template('login.html', form=form)
-
-        else:
+        else: # Member not in the db
+            flash('Email not found, please register.')
             return render_template('login.html', form=form)
 
-    else:
-        print("Valid Form on login GET: ", form.validate_on_submit(), file=sys.stderr)
-        return render_template('login.html', form=form)
+    print("LOGIN:  Valid Form on login GET: ", form.validate_on_submit(), file=sys.stderr)
+    return render_template('login.html', form=form)
 
 @auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        print("Valid Form on Register Submit: ", form.validate_on_submit(), file=sys.stderr)
+        print("REGISTER:  Valid Form on Register Submit: ", form.validate_on_submit(), file=sys.stderr)
         firstName = form.firstName.data
         lastName = form.lastName.data
         email = form.email.data

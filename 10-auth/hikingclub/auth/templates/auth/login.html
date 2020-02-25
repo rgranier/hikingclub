@@ -1,18 +1,22 @@
 {% extends "base-back.html"%}
 {% block content %}
 <div class="jumbotron">
-
-<h1>Welcome to the login page!</h1>
-
-    <form action="{{url_for('auth.login')}}" method = 'POST'>
-        <label for="email">Email</label>
-        <input type="text" name="email">
-        <label for="password">Password</label>
-        <input type="password" name="password">
-
-
-        <input type="submit" value="Submit Form">
-    </form>
-
+  {# get_flashed_messages() is auto sent to the template with the flash() call #}
+       {% for mess in get_flashed_messages()  %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+         {{mess}}
+         </div>
+       {% endfor %}
+  <h1>Welcome to the login page!</h1>
+  <form action="{{url_for('auth.login')}}" method = 'POST'>
+    {# This hidden_tag is a CSRF security feature. #}
+    {{ form.hidden_tag() }}
+    {{ form.email.label }} {{ form.email() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    {{ form.submit() }}
+  </form>
 </div>
 {% endblock %}
