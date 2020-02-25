@@ -63,6 +63,9 @@ def login():
     print("LOGIN:  Valid Form on login GET: ", form.validate_on_submit(), file=sys.stderr)
     return render_template('login.html', form=form)
 
+# This magically does email validation. When bad email is entered it will display
+# the form again, but it will not say what is wrong.  It preserves the values
+# entered previoulsly. 
 @auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
