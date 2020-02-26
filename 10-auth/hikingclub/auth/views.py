@@ -5,6 +5,7 @@ from hikingclub import db
 from hikingclub.models import Member
 from hikingclub.auth.forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from wtforms import ValidationError
 
 #NOTE:  restarting the app does not force logout, but closing the browser does.
 auth_blueprint = Blueprint('auth',
@@ -20,7 +21,7 @@ def welcome():
 @login_required
 def logout():
     logout_user()
-    flash('You logged out!')
+    flash('Logged out!')
     return redirect(url_for('index'))
 
 #TODO: for some reason this form is never valid.  We can trick it by
@@ -61,11 +62,14 @@ def login():
             return render_template('login.html', form=form)
 
     print("LOGIN:  Valid Form on login GET: ", form.validate_on_submit(), file=sys.stderr)
+    flash('Are there errors?  Is this the first?')
     return render_template('login.html', form=form)
 
 # This magically does email validation. When bad email is entered it will display
 # the form again, but it will not say what is wrong.  It preserves the values
-# entered previoulsly. 
+# entered previoulsly.
+
+# https://wtforms.readthedocs.io/en/stable/crash_course.html#displaying-errors
 @auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -77,9 +81,21 @@ def register():
         email = form.email.data
         password = form.password.data
 
-        toAdd = Member(firstName, lastName, email, password)
-        db.session.add(toAdd)
-        db.session.commit()
-        flash('Thanks for registering! Now you can login!')
-        return redirect(url_for('auth.login'))
+        # Check to see if the email is already registered.
+        # TODO: If this gets triggered what do with do with the message and the
+        # error.  This is how we propagte a raised error. Don't forget the import.
+        try:
+            form.checkEmail(email)
+            toAdd = Member(firstName, lastName, email, password)
+            db.session.add(toAdd)
+            db.session.commit()
+            flash('Thanks for registering! Now you can login!')
+            return redirect(url_for('auth.login'))
+        except ValidationError as err:
+            print("ValidationError: ", err.args, file=sys.stderr)
+            flash('Email address already registered.')
+            flash(err.args)
+            return render_template('register.html', form=form)
+
+    print("REGISTER:  Valid Form on GET: ", form.validate_on_submit(), file=sys.stderr)
     return render_template('register.html', form=form)
