@@ -62,7 +62,6 @@ def login():
             return render_template('login.html', form=form)
 
     print("LOGIN:  Valid Form on login GET: ", form.validate_on_submit(), file=sys.stderr)
-    flash('Are there errors?  Is this the first?')
     return render_template('login.html', form=form)
 
 # This magically does email validation. When bad email is entered it will display
@@ -94,7 +93,7 @@ def register():
         except ValidationError as err:
             print("ValidationError: ", err.args, file=sys.stderr)
             flash('Email address already registered.')
-            flash(err.args)
+            #flash(err.args)
             return render_template('register.html', form=form)
 
     print("REGISTER:  Valid Form on GET: ", form.validate_on_submit(), file=sys.stderr)

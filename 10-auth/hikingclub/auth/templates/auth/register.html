@@ -2,14 +2,34 @@
 {% block content %}
 
 {% if form.errors %}
-    <ul class="errors">
+
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
             {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
+
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          
+
+
+                {{ form[field_name].label }}: {{ error }}
+
+  </div>
+
+
             {% endfor %}
         {% endfor %}
-    </ul>
+
+
+
+
+
 {% endif %}
+
+
+
 
 <div class="jumbotron">
 
