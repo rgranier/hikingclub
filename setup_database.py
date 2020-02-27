@@ -7,7 +7,7 @@
 
 # Import database info
 from hikingclub import db
-from hikingclub.models import Member, Event
+from hikingclub.models import Member
 
 # Create the tables in the database
 # (Usually won't do it this way!)
@@ -15,8 +15,4 @@ db.create_all()
 
 member = Member('Test', 'Account', 'foo@bar.com', 'password')
 db.session.add(member)
-db.session.commit()
-
-event = Event('Hiking in Glacier National Park', 'Kalispel, MT', '11/1/19')
-db.session.add(event)
 db.session.commit()

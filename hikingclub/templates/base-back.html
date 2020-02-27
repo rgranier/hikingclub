@@ -19,22 +19,31 @@
     <!-- THEN WE PUT AN UNORDERED LIST INSIDE OF A COLLAPSE DIV -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      <!-- EVERY ITEM IN NAVBAR IS JUST A LIST ITEM -->
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active"> <a class="nav-link" href="{{url_for('registration.register')}}">Register</a> </li>
-        <li class="nav-item active"> <a class="nav-link" href="{{url_for('login.login')}}">Login</a> </li>
-        <li class="nav-item active"> <a class="nav-link" href="{{url_for('members.list')}}">Member Admin</a> </li>
-        <li class="nav-item active"> <a class="nav-link" href="{{url_for('events.list')}}">Event Admin</a> </li>
-        <li class="nav-item active"> <a class="nav-link" href="{{url_for('about.about')}}">About</a> </li>
-      </ul>
+     <!-- EVERY ITEM IN NAVBAR IS JUST A LIST ITEM -->
+     <ul class="navbar-nav mr-auto">
+       {% if current_user.is_authenticated %}
+          <li class="nav-link"><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+       {% else %}
+          <li class="nav-link"><a href="{{ url_for('auth.login') }}">Log In</a></li>
+          <li class="nav-link"><a href="{{ url_for('auth.register') }}">Register</a></li>
+       {% endif %}
+     </ul>
 
     </div>
     </nav>  <!-- END NAV -->
 
+    {# get_flashed_messages() is auto sent to the template with the flash() call #}
+      {% for mess in get_flashed_messages()  %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" class="fade close">
+             <span aria-hidden="true">&times;</span>
+          </button>
+           {{mess}}
+        </div>
+      {% endfor %}
+
     <!-- BEGIN Block Content -->
     {%block content%}
-
-
 
     {% endblock %}
     <!-- END Block Content -->
