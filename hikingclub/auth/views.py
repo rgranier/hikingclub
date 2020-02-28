@@ -52,7 +52,7 @@ def login():
                 # otherwise we'll go to the welcome page.
                 next = request.args.get('next')
                 if next == None or not next[0]=='/':
-                    next = url_for('auth.welcome')
+                    next = url_for('events.list')
                 return redirect(next)
             else: # bad password
                 flash('Your password is incorrect.')
