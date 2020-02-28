@@ -1,0 +1,45 @@
+
+{% extends "base-back.html"%}
+{% block content %}
+    <div class="container">
+      <div class=col-md-12>
+
+          <form id="form-list-client"> <legend>Member List</legend>
+
+          <div class="pull-right"> <a href='{{url_for('members.new')}}'
+          class="btn btn-primary btn-sm active" role="button"
+          aria-pressed="true">Add Member</a> </div>
+
+          <table class="table table-bordered table-condensed table-hover">
+            <thead>
+              <tr>
+                  <th style="width: 150px;">First Name</th>
+                  <th>Last Name</th>
+                  <th style="width: 50px;">Email</th>
+                  <th style="width: 50px;">Password</th>
+                  <th style="width: 350px;">Actions</th>
+              </tr>
+            </thead>
+           <tbody id="form-list-client-body">
+            {%for member in memberList %}
+              <tr>
+                <td>{{member.firstName}}</a></td>
+                <td>{{member.lastName}}</td>
+                <td>{{member.email}}</td>
+                <td>{{member.password}}</td>
+
+                <td> <a href='{{url_for('members.edit', memberId = member.id)}}' class="btn btn-primary btn-sm
+                active" role="button" aria-pressed="true">Edit</a>
+
+                <a href='{{url_for('members.delete', memberId = member.id)}}' class="btn btn-primary btn-sm
+                active" role="button" aria-pressed="true">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+
+  {% endblock %}

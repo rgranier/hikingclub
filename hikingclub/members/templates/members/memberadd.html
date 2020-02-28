@@ -1,0 +1,18 @@
+{% extends "base-back.html"%}
+{% block content %}
+<div class="jumbotron">
+
+<h1>User Account Administration</h1>
+<p>Add new member.</p>
+
+  <form action="{{url_for('members.new')}}" method = 'POST'>
+    {# This hidden_tag is a CSRF security feature. #}
+    {{ form.hidden_tag() }}
+    {{ form.firstName.label }} {{ form.firstName() }}<br>
+    {{ form.lastName.label }} {{ form.lastName() }}<br>
+    {{ form.email.label }} {{ form.email() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    {{ form.submit() }}
+  </form>
+</div>
+{% endblock %}

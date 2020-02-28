@@ -1,0 +1,20 @@
+{% extends "base-back.html"%}
+{% block content %}
+
+<!-- TODO:  Consider converting this to WTF Forms later -->
+
+<div class="container">
+  <div class=col-md-12>
+
+<br>
+<h5> Are you sure you want to delete {{member.firstName}} {{member.lastName}}? </h5>
+
+<form action="{{url_for('members.delete', memberId = member.id)}}" method = 'POST' >
+<input type='submit', value = 'Delete'>
+
+<a href = '{{url_for('members.list')}}' class="btn btn-primary btn-sm active"
+role="button" aria-pressed="true"> Cancel </a>
+</form>
+</div>
+</div>
+{% endblock %}
